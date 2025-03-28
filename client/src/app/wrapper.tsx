@@ -23,7 +23,7 @@ const controller = typeof window !== "undefined" ? [
           { rpcUrl: "https://api.cartridge.gg/x/starknet/mainnet" },
         ],
         defaultChainId: constants.StarknetChainId.SN_SEPOLIA,
-    })
+    }),
 ] : [];
 
 export default function AppWrapper({ children }: { children: ReactNode }) {

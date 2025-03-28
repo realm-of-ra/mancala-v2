@@ -1,0 +1,2432 @@
+schema {
+  query: World__Query
+  subscription: World__Subscription
+}
+
+scalar ByteArray
+
+scalar ContractAddress
+
+scalar Cursor
+
+scalar DateTime
+
+type ERC20__Token {
+  amount: String!
+  contractAddress: String!
+  decimals: Int!
+  name: String!
+  symbol: String!
+}
+
+type ERC721__Token {
+  contractAddress: String!
+  imagePath: String!
+  metadata: String!
+  metadataAttributes: String
+  metadataDescription: String
+  metadataName: String
+  name: String!
+  symbol: String!
+  tokenId: String!
+}
+
+union ERC__Token = ERC20__Token | ERC721__Token
+
+scalar Enum
+
+union ModelUnion = mancala_monday_Capture | mancala_monday_EndTurn | mancala_monday_GameCounter | mancala_monday_MancalaBoard | mancala_monday_Pit | mancala_monday_Player | mancala_monday_PlayerExtraTurn | mancala_monday_PlayerMove | mancala_monday_Profile | mancala_monday_Seed | mancala_monday_Settings | mancala_monday_TrophyCreation | mancala_monday_TrophyProgression | mancala_stone_Capture | mancala_stone_EndTurn | mancala_stone_GameCounter | mancala_stone_MancalaBoard | mancala_stone_Pit | mancala_stone_Player | mancala_stone_PlayerExtraTurn | mancala_stone_PlayerMove | mancala_stone_Profile | mancala_stone_Seed | mancala_stone_Settings | mancala_stone_TrophyCreation | mancala_stone_TrophyProgression
+
+enum OrderDirection {
+  ASC
+  DESC
+}
+
+type Token__Balance {
+  tokenMetadata: ERC__Token!
+}
+
+type Token__BalanceConnection {
+  edges: [Token__BalanceEdge]
+  pageInfo: World__PageInfo!
+  totalCount: Int!
+}
+
+type Token__BalanceEdge {
+  cursor: Cursor
+  node: Token__Balance
+}
+
+type Token__Transfer {
+  executedAt: String!
+  from: String!
+  to: String!
+  tokenMetadata: ERC__Token!
+  transactionHash: String!
+}
+
+type Token__TransferConnection {
+  edges: [Token__TransferEdge]
+  pageInfo: World__PageInfo!
+  totalCount: Int!
+}
+
+type Token__TransferEdge {
+  cursor: Cursor
+  node: Token__Transfer
+}
+
+type World__Content {
+  coverUri: String
+  description: String
+  iconUri: String
+  name: String
+  socials: [World__Social]
+  website: String
+}
+
+type World__Entity {
+  createdAt: DateTime
+  eventId: String
+  executedAt: DateTime
+  id: ID
+  keys: [String]
+  models: [ModelUnion]
+  updatedAt: DateTime
+}
+
+type World__EntityConnection {
+  edges: [World__EntityEdge]
+  pageInfo: World__PageInfo!
+  totalCount: Int!
+}
+
+type World__EntityEdge {
+  cursor: Cursor
+  node: World__Entity
+}
+
+type World__Event {
+  createdAt: DateTime
+  data: [String]
+  executedAt: DateTime
+  id: ID
+  keys: [String]
+  transactionHash: String
+}
+
+type World__EventConnection {
+  edges: [World__EventEdge]
+  pageInfo: World__PageInfo!
+  totalCount: Int!
+}
+
+type World__EventEdge {
+  cursor: Cursor
+  node: World__Event
+}
+
+type World__EventMessage {
+  createdAt: DateTime
+  eventId: String
+  executedAt: DateTime
+  id: ID
+  keys: [String]
+  models: [ModelUnion]
+  updatedAt: DateTime
+}
+
+type World__EventMessageConnection {
+  edges: [World__EventMessageEdge]
+  pageInfo: World__PageInfo!
+  totalCount: Int!
+}
+
+type World__EventMessageEdge {
+  cursor: Cursor
+  node: World__EventMessage
+}
+
+type World__Metadata {
+  content: World__Content
+  coverImg: String
+  createdAt: DateTime
+  executedAt: DateTime
+  iconImg: String
+  id: ID
+  updatedAt: DateTime
+  uri: String
+  worldAddress: String!
+}
+
+type World__MetadataConnection {
+  edges: [World__MetadataEdge]
+  pageInfo: World__PageInfo!
+  totalCount: Int!
+}
+
+type World__MetadataEdge {
+  cursor: Cursor
+  node: World__Metadata
+}
+
+type World__Model {
+  classHash: felt252
+  contractAddress: felt252
+  createdAt: DateTime
+  executedAt: DateTime
+  id: ID
+  name: String
+  namespace: String
+  transactionHash: felt252
+}
+
+type World__ModelConnection {
+  edges: [World__ModelEdge]
+  pageInfo: World__PageInfo!
+  totalCount: Int!
+}
+
+type World__ModelEdge {
+  cursor: Cursor
+  node: World__Model
+}
+
+input World__ModelOrder {
+  direction: OrderDirection!
+  field: World__ModelOrderField!
+}
+
+enum World__ModelOrderField {
+  CLASS_HASH
+  NAME
+}
+
+type World__PageInfo {
+  endCursor: Cursor
+  hasNextPage: Boolean!
+  hasPreviousPage: Boolean!
+  startCursor: Cursor
+}
+
+type World__Query {
+  entities(after: Cursor, before: Cursor, first: Int, keys: [String], last: Int, limit: Int, offset: Int): World__EntityConnection
+  entity(id: ID!): World__Entity!
+  eventMessage(id: ID!): World__EventMessage!
+  eventMessages(after: Cursor, before: Cursor, first: Int, keys: [String], last: Int, limit: Int, offset: Int): World__EventMessageConnection
+  events(after: Cursor, before: Cursor, first: Int, keys: [String], last: Int, limit: Int, offset: Int): World__EventConnection
+  mancalaMondayCaptureModels(after: Cursor, before: Cursor, first: Int, last: Int, limit: Int, offset: Int, order: mancala_monday_CaptureOrder, where: mancala_monday_CaptureWhereInput): mancala_monday_CaptureConnection
+  mancalaMondayEndTurnModels(after: Cursor, before: Cursor, first: Int, last: Int, limit: Int, offset: Int, order: mancala_monday_EndTurnOrder, where: mancala_monday_EndTurnWhereInput): mancala_monday_EndTurnConnection
+  mancalaMondayGameCounterModels(after: Cursor, before: Cursor, first: Int, last: Int, limit: Int, offset: Int, order: mancala_monday_GameCounterOrder, where: mancala_monday_GameCounterWhereInput): mancala_monday_GameCounterConnection
+  mancalaMondayMancalaBoardModels(after: Cursor, before: Cursor, first: Int, last: Int, limit: Int, offset: Int, order: mancala_monday_MancalaBoardOrder, where: mancala_monday_MancalaBoardWhereInput): mancala_monday_MancalaBoardConnection
+  mancalaMondayPitModels(after: Cursor, before: Cursor, first: Int, last: Int, limit: Int, offset: Int, order: mancala_monday_PitOrder, where: mancala_monday_PitWhereInput): mancala_monday_PitConnection
+  mancalaMondayPlayerExtraTurnModels(after: Cursor, before: Cursor, first: Int, last: Int, limit: Int, offset: Int, order: mancala_monday_PlayerExtraTurnOrder, where: mancala_monday_PlayerExtraTurnWhereInput): mancala_monday_PlayerExtraTurnConnection
+  mancalaMondayPlayerModels(after: Cursor, before: Cursor, first: Int, last: Int, limit: Int, offset: Int, order: mancala_monday_PlayerOrder, where: mancala_monday_PlayerWhereInput): mancala_monday_PlayerConnection
+  mancalaMondayPlayerMoveModels(after: Cursor, before: Cursor, first: Int, last: Int, limit: Int, offset: Int, order: mancala_monday_PlayerMoveOrder, where: mancala_monday_PlayerMoveWhereInput): mancala_monday_PlayerMoveConnection
+  mancalaMondayProfileModels(after: Cursor, before: Cursor, first: Int, last: Int, limit: Int, offset: Int, order: mancala_monday_ProfileOrder, where: mancala_monday_ProfileWhereInput): mancala_monday_ProfileConnection
+  mancalaMondaySeedModels(after: Cursor, before: Cursor, first: Int, last: Int, limit: Int, offset: Int, order: mancala_monday_SeedOrder, where: mancala_monday_SeedWhereInput): mancala_monday_SeedConnection
+  mancalaMondaySettingsModels(after: Cursor, before: Cursor, first: Int, last: Int, limit: Int, offset: Int, order: mancala_monday_SettingsOrder, where: mancala_monday_SettingsWhereInput): mancala_monday_SettingsConnection
+  mancalaMondayTrophyCreationModels(after: Cursor, before: Cursor, first: Int, last: Int, limit: Int, offset: Int, order: mancala_monday_TrophyCreationOrder, where: mancala_monday_TrophyCreationWhereInput): mancala_monday_TrophyCreationConnection
+  mancalaMondayTrophyProgressionModels(after: Cursor, before: Cursor, first: Int, last: Int, limit: Int, offset: Int, order: mancala_monday_TrophyProgressionOrder, where: mancala_monday_TrophyProgressionWhereInput): mancala_monday_TrophyProgressionConnection
+  mancalaStoneCaptureModels(after: Cursor, before: Cursor, first: Int, last: Int, limit: Int, offset: Int, order: mancala_stone_CaptureOrder, where: mancala_stone_CaptureWhereInput): mancala_stone_CaptureConnection
+  mancalaStoneEndTurnModels(after: Cursor, before: Cursor, first: Int, last: Int, limit: Int, offset: Int, order: mancala_stone_EndTurnOrder, where: mancala_stone_EndTurnWhereInput): mancala_stone_EndTurnConnection
+  mancalaStoneGameCounterModels(after: Cursor, before: Cursor, first: Int, last: Int, limit: Int, offset: Int, order: mancala_stone_GameCounterOrder, where: mancala_stone_GameCounterWhereInput): mancala_stone_GameCounterConnection
+  mancalaStoneMancalaBoardModels(after: Cursor, before: Cursor, first: Int, last: Int, limit: Int, offset: Int, order: mancala_stone_MancalaBoardOrder, where: mancala_stone_MancalaBoardWhereInput): mancala_stone_MancalaBoardConnection
+  mancalaStonePitModels(after: Cursor, before: Cursor, first: Int, last: Int, limit: Int, offset: Int, order: mancala_stone_PitOrder, where: mancala_stone_PitWhereInput): mancala_stone_PitConnection
+  mancalaStonePlayerExtraTurnModels(after: Cursor, before: Cursor, first: Int, last: Int, limit: Int, offset: Int, order: mancala_stone_PlayerExtraTurnOrder, where: mancala_stone_PlayerExtraTurnWhereInput): mancala_stone_PlayerExtraTurnConnection
+  mancalaStonePlayerModels(after: Cursor, before: Cursor, first: Int, last: Int, limit: Int, offset: Int, order: mancala_stone_PlayerOrder, where: mancala_stone_PlayerWhereInput): mancala_stone_PlayerConnection
+  mancalaStonePlayerMoveModels(after: Cursor, before: Cursor, first: Int, last: Int, limit: Int, offset: Int, order: mancala_stone_PlayerMoveOrder, where: mancala_stone_PlayerMoveWhereInput): mancala_stone_PlayerMoveConnection
+  mancalaStoneProfileModels(after: Cursor, before: Cursor, first: Int, last: Int, limit: Int, offset: Int, order: mancala_stone_ProfileOrder, where: mancala_stone_ProfileWhereInput): mancala_stone_ProfileConnection
+  mancalaStoneSeedModels(after: Cursor, before: Cursor, first: Int, last: Int, limit: Int, offset: Int, order: mancala_stone_SeedOrder, where: mancala_stone_SeedWhereInput): mancala_stone_SeedConnection
+  mancalaStoneSettingsModels(after: Cursor, before: Cursor, first: Int, last: Int, limit: Int, offset: Int, order: mancala_stone_SettingsOrder, where: mancala_stone_SettingsWhereInput): mancala_stone_SettingsConnection
+  mancalaStoneTrophyCreationModels(after: Cursor, before: Cursor, first: Int, last: Int, limit: Int, offset: Int, order: mancala_stone_TrophyCreationOrder, where: mancala_stone_TrophyCreationWhereInput): mancala_stone_TrophyCreationConnection
+  mancalaStoneTrophyProgressionModels(after: Cursor, before: Cursor, first: Int, last: Int, limit: Int, offset: Int, order: mancala_stone_TrophyProgressionOrder, where: mancala_stone_TrophyProgressionWhereInput): mancala_stone_TrophyProgressionConnection
+  metadatas(after: Cursor, before: Cursor, first: Int, last: Int, limit: Int, offset: Int): World__MetadataConnection
+  model(id: ID!): World__Model!
+  models(after: Cursor, before: Cursor, first: Int, last: Int, limit: Int, offset: Int, order: World__ModelOrder): World__ModelConnection
+  tokenBalances(accountAddress: String!, after: Cursor, before: Cursor, first: Int, last: Int, limit: Int, offset: Int): Token__BalanceConnection
+  tokenTransfers(accountAddress: String!, after: Cursor, before: Cursor, first: Int, last: Int, limit: Int, offset: Int): Token__TransferConnection
+  transaction(transactionHash: ID!): World__Transaction!
+  transactions(after: Cursor, before: Cursor, first: Int, last: Int, limit: Int, offset: Int): World__TransactionConnection
+}
+
+type World__Social {
+  name: String
+  url: String
+}
+
+type World__Subscription {
+  entityUpdated(id: ID): World__Entity!
+  eventEmitted(keys: [String]): World__Event!
+  eventMessageUpdated(id: ID): World__EventMessage!
+  modelRegistered(id: ID): World__Model!
+}
+
+type World__Transaction {
+  calldata: [felt252]
+  createdAt: DateTime
+  executedAt: DateTime
+  id: ID
+  maxFee: felt252
+  nonce: felt252
+  senderAddress: felt252
+  signature: [felt252]
+  transactionHash: felt252
+}
+
+type World__TransactionConnection {
+  edges: [World__TransactionEdge]
+  pageInfo: World__PageInfo!
+  totalCount: Int!
+}
+
+type World__TransactionEdge {
+  cursor: Cursor
+  node: World__Transaction
+}
+
+scalar bool
+
+scalar felt252
+
+type mancala_monday_Capture {
+  entity: World__Entity
+  eventMessage: World__EventMessage
+  game_id: u128
+  pit_number: u8
+  player: ContractAddress
+  seed_count: u8
+}
+
+type mancala_monday_CaptureConnection {
+  edges: [mancala_monday_CaptureEdge]
+  pageInfo: World__PageInfo!
+  totalCount: Int!
+}
+
+type mancala_monday_CaptureEdge {
+  cursor: Cursor
+  node: mancala_monday_Capture
+}
+
+input mancala_monday_CaptureOrder {
+  direction: OrderDirection!
+  field: mancala_monday_CaptureOrderField!
+}
+
+enum mancala_monday_CaptureOrderField {
+  GAME_ID
+  PIT_NUMBER
+  PLAYER
+  SEED_COUNT
+}
+
+input mancala_monday_CaptureWhereInput {
+  game_id: u128
+  game_idEQ: u128
+  game_idGT: u128
+  game_idGTE: u128
+  game_idIN: [u128]
+  game_idLIKE: u128
+  game_idLT: u128
+  game_idLTE: u128
+  game_idNEQ: u128
+  game_idNOTIN: [u128]
+  game_idNOTLIKE: u128
+  pit_number: u8
+  pit_numberEQ: u8
+  pit_numberGT: u8
+  pit_numberGTE: u8
+  pit_numberIN: [u8]
+  pit_numberLIKE: u8
+  pit_numberLT: u8
+  pit_numberLTE: u8
+  pit_numberNEQ: u8
+  pit_numberNOTIN: [u8]
+  pit_numberNOTLIKE: u8
+  player: ContractAddress
+  playerEQ: ContractAddress
+  playerGT: ContractAddress
+  playerGTE: ContractAddress
+  playerIN: [ContractAddress]
+  playerLIKE: ContractAddress
+  playerLT: ContractAddress
+  playerLTE: ContractAddress
+  playerNEQ: ContractAddress
+  playerNOTIN: [ContractAddress]
+  playerNOTLIKE: ContractAddress
+  seed_count: u8
+  seed_countEQ: u8
+  seed_countGT: u8
+  seed_countGTE: u8
+  seed_countIN: [u8]
+  seed_countLIKE: u8
+  seed_countLT: u8
+  seed_countLTE: u8
+  seed_countNEQ: u8
+  seed_countNOTIN: [u8]
+  seed_countNOTLIKE: u8
+}
+
+type mancala_monday_EndTurn {
+  current_player: ContractAddress
+  entity: World__Entity
+  eventMessage: World__EventMessage
+  game_id: u128
+  next_player: ContractAddress
+}
+
+type mancala_monday_EndTurnConnection {
+  edges: [mancala_monday_EndTurnEdge]
+  pageInfo: World__PageInfo!
+  totalCount: Int!
+}
+
+type mancala_monday_EndTurnEdge {
+  cursor: Cursor
+  node: mancala_monday_EndTurn
+}
+
+input mancala_monday_EndTurnOrder {
+  direction: OrderDirection!
+  field: mancala_monday_EndTurnOrderField!
+}
+
+enum mancala_monday_EndTurnOrderField {
+  CURRENT_PLAYER
+  GAME_ID
+  NEXT_PLAYER
+}
+
+input mancala_monday_EndTurnWhereInput {
+  current_player: ContractAddress
+  current_playerEQ: ContractAddress
+  current_playerGT: ContractAddress
+  current_playerGTE: ContractAddress
+  current_playerIN: [ContractAddress]
+  current_playerLIKE: ContractAddress
+  current_playerLT: ContractAddress
+  current_playerLTE: ContractAddress
+  current_playerNEQ: ContractAddress
+  current_playerNOTIN: [ContractAddress]
+  current_playerNOTLIKE: ContractAddress
+  game_id: u128
+  game_idEQ: u128
+  game_idGT: u128
+  game_idGTE: u128
+  game_idIN: [u128]
+  game_idLIKE: u128
+  game_idLT: u128
+  game_idLTE: u128
+  game_idNEQ: u128
+  game_idNOTIN: [u128]
+  game_idNOTLIKE: u128
+  next_player: ContractAddress
+  next_playerEQ: ContractAddress
+  next_playerGT: ContractAddress
+  next_playerGTE: ContractAddress
+  next_playerIN: [ContractAddress]
+  next_playerLIKE: ContractAddress
+  next_playerLT: ContractAddress
+  next_playerLTE: ContractAddress
+  next_playerNEQ: ContractAddress
+  next_playerNOTIN: [ContractAddress]
+  next_playerNOTLIKE: ContractAddress
+}
+
+type mancala_monday_GameCounter {
+  count: u128
+  entity: World__Entity
+  eventMessage: World__EventMessage
+  id: u32
+}
+
+type mancala_monday_GameCounterConnection {
+  edges: [mancala_monday_GameCounterEdge]
+  pageInfo: World__PageInfo!
+  totalCount: Int!
+}
+
+type mancala_monday_GameCounterEdge {
+  cursor: Cursor
+  node: mancala_monday_GameCounter
+}
+
+input mancala_monday_GameCounterOrder {
+  direction: OrderDirection!
+  field: mancala_monday_GameCounterOrderField!
+}
+
+enum mancala_monday_GameCounterOrderField {
+  COUNT
+  ID
+}
+
+input mancala_monday_GameCounterWhereInput {
+  count: u128
+  countEQ: u128
+  countGT: u128
+  countGTE: u128
+  countIN: [u128]
+  countLIKE: u128
+  countLT: u128
+  countLTE: u128
+  countNEQ: u128
+  countNOTIN: [u128]
+  countNOTLIKE: u128
+  id: u32
+  idEQ: u32
+  idGT: u32
+  idGTE: u32
+  idIN: [u32]
+  idLIKE: u32
+  idLT: u32
+  idLTE: u32
+  idNEQ: u32
+  idNOTIN: [u32]
+  idNOTLIKE: u32
+}
+
+type mancala_monday_MancalaBoard {
+  current_player: ContractAddress
+  entity: World__Entity
+  eventMessage: World__EventMessage
+  game_id: u128
+  is_private: bool
+  last_turn_change_timestamp: u64
+  player_one: ContractAddress
+  player_two: ContractAddress
+  status: Enum
+  winner: ContractAddress
+}
+
+type mancala_monday_MancalaBoardConnection {
+  edges: [mancala_monday_MancalaBoardEdge]
+  pageInfo: World__PageInfo!
+  totalCount: Int!
+}
+
+type mancala_monday_MancalaBoardEdge {
+  cursor: Cursor
+  node: mancala_monday_MancalaBoard
+}
+
+input mancala_monday_MancalaBoardOrder {
+  direction: OrderDirection!
+  field: mancala_monday_MancalaBoardOrderField!
+}
+
+enum mancala_monday_MancalaBoardOrderField {
+  CURRENT_PLAYER
+  GAME_ID
+  IS_PRIVATE
+  LAST_TURN_CHANGE_TIMESTAMP
+  PLAYER_ONE
+  PLAYER_TWO
+  STATUS
+  WINNER
+}
+
+input mancala_monday_MancalaBoardWhereInput {
+  current_player: ContractAddress
+  current_playerEQ: ContractAddress
+  current_playerGT: ContractAddress
+  current_playerGTE: ContractAddress
+  current_playerIN: [ContractAddress]
+  current_playerLIKE: ContractAddress
+  current_playerLT: ContractAddress
+  current_playerLTE: ContractAddress
+  current_playerNEQ: ContractAddress
+  current_playerNOTIN: [ContractAddress]
+  current_playerNOTLIKE: ContractAddress
+  game_id: u128
+  game_idEQ: u128
+  game_idGT: u128
+  game_idGTE: u128
+  game_idIN: [u128]
+  game_idLIKE: u128
+  game_idLT: u128
+  game_idLTE: u128
+  game_idNEQ: u128
+  game_idNOTIN: [u128]
+  game_idNOTLIKE: u128
+  is_private: bool
+  last_turn_change_timestamp: u64
+  last_turn_change_timestampEQ: u64
+  last_turn_change_timestampGT: u64
+  last_turn_change_timestampGTE: u64
+  last_turn_change_timestampIN: [u64]
+  last_turn_change_timestampLIKE: u64
+  last_turn_change_timestampLT: u64
+  last_turn_change_timestampLTE: u64
+  last_turn_change_timestampNEQ: u64
+  last_turn_change_timestampNOTIN: [u64]
+  last_turn_change_timestampNOTLIKE: u64
+  player_one: ContractAddress
+  player_oneEQ: ContractAddress
+  player_oneGT: ContractAddress
+  player_oneGTE: ContractAddress
+  player_oneIN: [ContractAddress]
+  player_oneLIKE: ContractAddress
+  player_oneLT: ContractAddress
+  player_oneLTE: ContractAddress
+  player_oneNEQ: ContractAddress
+  player_oneNOTIN: [ContractAddress]
+  player_oneNOTLIKE: ContractAddress
+  player_two: ContractAddress
+  player_twoEQ: ContractAddress
+  player_twoGT: ContractAddress
+  player_twoGTE: ContractAddress
+  player_twoIN: [ContractAddress]
+  player_twoLIKE: ContractAddress
+  player_twoLT: ContractAddress
+  player_twoLTE: ContractAddress
+  player_twoNEQ: ContractAddress
+  player_twoNOTIN: [ContractAddress]
+  player_twoNOTLIKE: ContractAddress
+  status: Enum
+  winner: ContractAddress
+  winnerEQ: ContractAddress
+  winnerGT: ContractAddress
+  winnerGTE: ContractAddress
+  winnerIN: [ContractAddress]
+  winnerLIKE: ContractAddress
+  winnerLT: ContractAddress
+  winnerLTE: ContractAddress
+  winnerNEQ: ContractAddress
+  winnerNOTIN: [ContractAddress]
+  winnerNOTLIKE: ContractAddress
+}
+
+type mancala_monday_Pit {
+  entity: World__Entity
+  eventMessage: World__EventMessage
+  game_id: u128
+  pit_number: u8
+  player: ContractAddress
+  seed_count: u8
+}
+
+type mancala_monday_PitConnection {
+  edges: [mancala_monday_PitEdge]
+  pageInfo: World__PageInfo!
+  totalCount: Int!
+}
+
+type mancala_monday_PitEdge {
+  cursor: Cursor
+  node: mancala_monday_Pit
+}
+
+input mancala_monday_PitOrder {
+  direction: OrderDirection!
+  field: mancala_monday_PitOrderField!
+}
+
+enum mancala_monday_PitOrderField {
+  GAME_ID
+  PIT_NUMBER
+  PLAYER
+  SEED_COUNT
+}
+
+input mancala_monday_PitWhereInput {
+  game_id: u128
+  game_idEQ: u128
+  game_idGT: u128
+  game_idGTE: u128
+  game_idIN: [u128]
+  game_idLIKE: u128
+  game_idLT: u128
+  game_idLTE: u128
+  game_idNEQ: u128
+  game_idNOTIN: [u128]
+  game_idNOTLIKE: u128
+  pit_number: u8
+  pit_numberEQ: u8
+  pit_numberGT: u8
+  pit_numberGTE: u8
+  pit_numberIN: [u8]
+  pit_numberLIKE: u8
+  pit_numberLT: u8
+  pit_numberLTE: u8
+  pit_numberNEQ: u8
+  pit_numberNOTIN: [u8]
+  pit_numberNOTLIKE: u8
+  player: ContractAddress
+  playerEQ: ContractAddress
+  playerGT: ContractAddress
+  playerGTE: ContractAddress
+  playerIN: [ContractAddress]
+  playerLIKE: ContractAddress
+  playerLT: ContractAddress
+  playerLTE: ContractAddress
+  playerNEQ: ContractAddress
+  playerNOTIN: [ContractAddress]
+  playerNOTLIKE: ContractAddress
+  seed_count: u8
+  seed_countEQ: u8
+  seed_countGT: u8
+  seed_countGTE: u8
+  seed_countIN: [u8]
+  seed_countLIKE: u8
+  seed_countLT: u8
+  seed_countLTE: u8
+  seed_countNEQ: u8
+  seed_countNOTIN: [u8]
+  seed_countNOTLIKE: u8
+}
+
+type mancala_monday_Player {
+  address: ContractAddress
+  entity: World__Entity
+  eventMessage: World__EventMessage
+  game_id: u128
+  len_pits: u8
+  restart_requested: bool
+}
+
+type mancala_monday_PlayerConnection {
+  edges: [mancala_monday_PlayerEdge]
+  pageInfo: World__PageInfo!
+  totalCount: Int!
+}
+
+type mancala_monday_PlayerEdge {
+  cursor: Cursor
+  node: mancala_monday_Player
+}
+
+type mancala_monday_PlayerExtraTurn {
+  entity: World__Entity
+  eventMessage: World__EventMessage
+  game_id: u128
+  player: ContractAddress
+}
+
+type mancala_monday_PlayerExtraTurnConnection {
+  edges: [mancala_monday_PlayerExtraTurnEdge]
+  pageInfo: World__PageInfo!
+  totalCount: Int!
+}
+
+type mancala_monday_PlayerExtraTurnEdge {
+  cursor: Cursor
+  node: mancala_monday_PlayerExtraTurn
+}
+
+input mancala_monday_PlayerExtraTurnOrder {
+  direction: OrderDirection!
+  field: mancala_monday_PlayerExtraTurnOrderField!
+}
+
+enum mancala_monday_PlayerExtraTurnOrderField {
+  GAME_ID
+  PLAYER
+}
+
+input mancala_monday_PlayerExtraTurnWhereInput {
+  game_id: u128
+  game_idEQ: u128
+  game_idGT: u128
+  game_idGTE: u128
+  game_idIN: [u128]
+  game_idLIKE: u128
+  game_idLT: u128
+  game_idLTE: u128
+  game_idNEQ: u128
+  game_idNOTIN: [u128]
+  game_idNOTLIKE: u128
+  player: ContractAddress
+  playerEQ: ContractAddress
+  playerGT: ContractAddress
+  playerGTE: ContractAddress
+  playerIN: [ContractAddress]
+  playerLIKE: ContractAddress
+  playerLT: ContractAddress
+  playerLTE: ContractAddress
+  playerNEQ: ContractAddress
+  playerNOTIN: [ContractAddress]
+  playerNOTLIKE: ContractAddress
+}
+
+type mancala_monday_PlayerMove {
+  entity: World__Entity
+  eventMessage: World__EventMessage
+  game_id: u128
+  pit_number: u8
+  seed_number: u8
+}
+
+type mancala_monday_PlayerMoveConnection {
+  edges: [mancala_monday_PlayerMoveEdge]
+  pageInfo: World__PageInfo!
+  totalCount: Int!
+}
+
+type mancala_monday_PlayerMoveEdge {
+  cursor: Cursor
+  node: mancala_monday_PlayerMove
+}
+
+input mancala_monday_PlayerMoveOrder {
+  direction: OrderDirection!
+  field: mancala_monday_PlayerMoveOrderField!
+}
+
+enum mancala_monday_PlayerMoveOrderField {
+  GAME_ID
+  PIT_NUMBER
+  SEED_NUMBER
+}
+
+input mancala_monday_PlayerMoveWhereInput {
+  game_id: u128
+  game_idEQ: u128
+  game_idGT: u128
+  game_idGTE: u128
+  game_idIN: [u128]
+  game_idLIKE: u128
+  game_idLT: u128
+  game_idLTE: u128
+  game_idNEQ: u128
+  game_idNOTIN: [u128]
+  game_idNOTLIKE: u128
+  pit_number: u8
+  pit_numberEQ: u8
+  pit_numberGT: u8
+  pit_numberGTE: u8
+  pit_numberIN: [u8]
+  pit_numberLIKE: u8
+  pit_numberLT: u8
+  pit_numberLTE: u8
+  pit_numberNEQ: u8
+  pit_numberNOTIN: [u8]
+  pit_numberNOTLIKE: u8
+  seed_number: u8
+  seed_numberEQ: u8
+  seed_numberGT: u8
+  seed_numberGTE: u8
+  seed_numberIN: [u8]
+  seed_numberLIKE: u8
+  seed_numberLT: u8
+  seed_numberLTE: u8
+  seed_numberNEQ: u8
+  seed_numberNOTIN: [u8]
+  seed_numberNOTLIKE: u8
+}
+
+input mancala_monday_PlayerOrder {
+  direction: OrderDirection!
+  field: mancala_monday_PlayerOrderField!
+}
+
+enum mancala_monday_PlayerOrderField {
+  ADDRESS
+  GAME_ID
+  LEN_PITS
+  RESTART_REQUESTED
+}
+
+input mancala_monday_PlayerWhereInput {
+  address: ContractAddress
+  addressEQ: ContractAddress
+  addressGT: ContractAddress
+  addressGTE: ContractAddress
+  addressIN: [ContractAddress]
+  addressLIKE: ContractAddress
+  addressLT: ContractAddress
+  addressLTE: ContractAddress
+  addressNEQ: ContractAddress
+  addressNOTIN: [ContractAddress]
+  addressNOTLIKE: ContractAddress
+  game_id: u128
+  game_idEQ: u128
+  game_idGT: u128
+  game_idGTE: u128
+  game_idIN: [u128]
+  game_idLIKE: u128
+  game_idLT: u128
+  game_idLTE: u128
+  game_idNEQ: u128
+  game_idNOTIN: [u128]
+  game_idNOTLIKE: u128
+  len_pits: u8
+  len_pitsEQ: u8
+  len_pitsGT: u8
+  len_pitsGTE: u8
+  len_pitsIN: [u8]
+  len_pitsLIKE: u8
+  len_pitsLT: u8
+  len_pitsLTE: u8
+  len_pitsNEQ: u8
+  len_pitsNOTIN: [u8]
+  len_pitsNOTLIKE: u8
+  restart_requested: bool
+}
+
+type mancala_monday_Profile {
+  address: ContractAddress
+  creation_time: u64
+  entity: World__Entity
+  eventMessage: World__EventMessage
+  is_initialized: bool
+  name: felt252
+  profile_uri: ByteArray
+}
+
+type mancala_monday_ProfileConnection {
+  edges: [mancala_monday_ProfileEdge]
+  pageInfo: World__PageInfo!
+  totalCount: Int!
+}
+
+type mancala_monday_ProfileEdge {
+  cursor: Cursor
+  node: mancala_monday_Profile
+}
+
+input mancala_monday_ProfileOrder {
+  direction: OrderDirection!
+  field: mancala_monday_ProfileOrderField!
+}
+
+enum mancala_monday_ProfileOrderField {
+  ADDRESS
+  CREATION_TIME
+  IS_INITIALIZED
+  NAME
+  PROFILE_URI
+}
+
+input mancala_monday_ProfileWhereInput {
+  address: ContractAddress
+  addressEQ: ContractAddress
+  addressGT: ContractAddress
+  addressGTE: ContractAddress
+  addressIN: [ContractAddress]
+  addressLIKE: ContractAddress
+  addressLT: ContractAddress
+  addressLTE: ContractAddress
+  addressNEQ: ContractAddress
+  addressNOTIN: [ContractAddress]
+  addressNOTLIKE: ContractAddress
+  creation_time: u64
+  creation_timeEQ: u64
+  creation_timeGT: u64
+  creation_timeGTE: u64
+  creation_timeIN: [u64]
+  creation_timeLIKE: u64
+  creation_timeLT: u64
+  creation_timeLTE: u64
+  creation_timeNEQ: u64
+  creation_timeNOTIN: [u64]
+  creation_timeNOTLIKE: u64
+  is_initialized: bool
+  name: felt252
+  nameEQ: felt252
+  nameGT: felt252
+  nameGTE: felt252
+  nameIN: [felt252]
+  nameLIKE: felt252
+  nameLT: felt252
+  nameLTE: felt252
+  nameNEQ: felt252
+  nameNOTIN: [felt252]
+  nameNOTLIKE: felt252
+  profile_uri: ByteArray
+  profile_uriEQ: ByteArray
+  profile_uriGT: ByteArray
+  profile_uriGTE: ByteArray
+  profile_uriIN: [ByteArray]
+  profile_uriLIKE: ByteArray
+  profile_uriLT: ByteArray
+  profile_uriLTE: ByteArray
+  profile_uriNEQ: ByteArray
+  profile_uriNOTIN: [ByteArray]
+  profile_uriNOTLIKE: ByteArray
+}
+
+type mancala_monday_Seed {
+  color: Enum
+  entity: World__Entity
+  eventMessage: World__EventMessage
+  game_id: u128
+  pit_number: u8
+  player: ContractAddress
+  seed_id: u128
+  seed_number: u8
+}
+
+type mancala_monday_SeedConnection {
+  edges: [mancala_monday_SeedEdge]
+  pageInfo: World__PageInfo!
+  totalCount: Int!
+}
+
+type mancala_monday_SeedEdge {
+  cursor: Cursor
+  node: mancala_monday_Seed
+}
+
+input mancala_monday_SeedOrder {
+  direction: OrderDirection!
+  field: mancala_monday_SeedOrderField!
+}
+
+enum mancala_monday_SeedOrderField {
+  COLOR
+  GAME_ID
+  PIT_NUMBER
+  PLAYER
+  SEED_ID
+  SEED_NUMBER
+}
+
+input mancala_monday_SeedWhereInput {
+  color: Enum
+  game_id: u128
+  game_idEQ: u128
+  game_idGT: u128
+  game_idGTE: u128
+  game_idIN: [u128]
+  game_idLIKE: u128
+  game_idLT: u128
+  game_idLTE: u128
+  game_idNEQ: u128
+  game_idNOTIN: [u128]
+  game_idNOTLIKE: u128
+  pit_number: u8
+  pit_numberEQ: u8
+  pit_numberGT: u8
+  pit_numberGTE: u8
+  pit_numberIN: [u8]
+  pit_numberLIKE: u8
+  pit_numberLT: u8
+  pit_numberLTE: u8
+  pit_numberNEQ: u8
+  pit_numberNOTIN: [u8]
+  pit_numberNOTLIKE: u8
+  player: ContractAddress
+  playerEQ: ContractAddress
+  playerGT: ContractAddress
+  playerGTE: ContractAddress
+  playerIN: [ContractAddress]
+  playerLIKE: ContractAddress
+  playerLT: ContractAddress
+  playerLTE: ContractAddress
+  playerNEQ: ContractAddress
+  playerNOTIN: [ContractAddress]
+  playerNOTLIKE: ContractAddress
+  seed_id: u128
+  seed_idEQ: u128
+  seed_idGT: u128
+  seed_idGTE: u128
+  seed_idIN: [u128]
+  seed_idLIKE: u128
+  seed_idLT: u128
+  seed_idLTE: u128
+  seed_idNEQ: u128
+  seed_idNOTIN: [u128]
+  seed_idNOTLIKE: u128
+  seed_number: u8
+  seed_numberEQ: u8
+  seed_numberGT: u8
+  seed_numberGTE: u8
+  seed_numberIN: [u8]
+  seed_numberLIKE: u8
+  seed_numberLT: u8
+  seed_numberLTE: u8
+  seed_numberNEQ: u8
+  seed_numberNOTIN: [u8]
+  seed_numberNOTLIKE: u8
+}
+
+type mancala_monday_Settings {
+  entity: World__Entity
+  eventMessage: World__EventMessage
+  gate_keeper_address: ContractAddress
+  id: u8
+  mancala_pass_address: ContractAddress
+}
+
+type mancala_monday_SettingsConnection {
+  edges: [mancala_monday_SettingsEdge]
+  pageInfo: World__PageInfo!
+  totalCount: Int!
+}
+
+type mancala_monday_SettingsEdge {
+  cursor: Cursor
+  node: mancala_monday_Settings
+}
+
+input mancala_monday_SettingsOrder {
+  direction: OrderDirection!
+  field: mancala_monday_SettingsOrderField!
+}
+
+enum mancala_monday_SettingsOrderField {
+  GATE_KEEPER_ADDRESS
+  ID
+  MANCALA_PASS_ADDRESS
+}
+
+input mancala_monday_SettingsWhereInput {
+  gate_keeper_address: ContractAddress
+  gate_keeper_addressEQ: ContractAddress
+  gate_keeper_addressGT: ContractAddress
+  gate_keeper_addressGTE: ContractAddress
+  gate_keeper_addressIN: [ContractAddress]
+  gate_keeper_addressLIKE: ContractAddress
+  gate_keeper_addressLT: ContractAddress
+  gate_keeper_addressLTE: ContractAddress
+  gate_keeper_addressNEQ: ContractAddress
+  gate_keeper_addressNOTIN: [ContractAddress]
+  gate_keeper_addressNOTLIKE: ContractAddress
+  id: u8
+  idEQ: u8
+  idGT: u8
+  idGTE: u8
+  idIN: [u8]
+  idLIKE: u8
+  idLT: u8
+  idLTE: u8
+  idNEQ: u8
+  idNOTIN: [u8]
+  idNOTLIKE: u8
+  mancala_pass_address: ContractAddress
+  mancala_pass_addressEQ: ContractAddress
+  mancala_pass_addressGT: ContractAddress
+  mancala_pass_addressGTE: ContractAddress
+  mancala_pass_addressIN: [ContractAddress]
+  mancala_pass_addressLIKE: ContractAddress
+  mancala_pass_addressLT: ContractAddress
+  mancala_pass_addressLTE: ContractAddress
+  mancala_pass_addressNEQ: ContractAddress
+  mancala_pass_addressNOTIN: [ContractAddress]
+  mancala_pass_addressNOTLIKE: ContractAddress
+}
+
+type mancala_monday_Task {
+  description: ByteArray
+  id: felt252
+  total: u32
+}
+
+type mancala_monday_TrophyCreation {
+  data: ByteArray
+  description: ByteArray
+  end: u64
+  entity: World__Entity
+  eventMessage: World__EventMessage
+  group: felt252
+  hidden: bool
+  icon: felt252
+  id: felt252
+  index: u8
+  points: u16
+  start: u64
+  tasks: [mancala_monday_Task]
+  title: felt252
+}
+
+type mancala_monday_TrophyCreationConnection {
+  edges: [mancala_monday_TrophyCreationEdge]
+  pageInfo: World__PageInfo!
+  totalCount: Int!
+}
+
+type mancala_monday_TrophyCreationEdge {
+  cursor: Cursor
+  node: mancala_monday_TrophyCreation
+}
+
+input mancala_monday_TrophyCreationOrder {
+  direction: OrderDirection!
+  field: mancala_monday_TrophyCreationOrderField!
+}
+
+enum mancala_monday_TrophyCreationOrderField {
+  DATA
+  DESCRIPTION
+  END
+  GROUP
+  HIDDEN
+  ICON
+  ID
+  INDEX
+  POINTS
+  START
+  TASKS
+  TITLE
+}
+
+input mancala_monday_TrophyCreationWhereInput {
+  data: ByteArray
+  dataEQ: ByteArray
+  dataGT: ByteArray
+  dataGTE: ByteArray
+  dataIN: [ByteArray]
+  dataLIKE: ByteArray
+  dataLT: ByteArray
+  dataLTE: ByteArray
+  dataNEQ: ByteArray
+  dataNOTIN: [ByteArray]
+  dataNOTLIKE: ByteArray
+  description: ByteArray
+  descriptionEQ: ByteArray
+  descriptionGT: ByteArray
+  descriptionGTE: ByteArray
+  descriptionIN: [ByteArray]
+  descriptionLIKE: ByteArray
+  descriptionLT: ByteArray
+  descriptionLTE: ByteArray
+  descriptionNEQ: ByteArray
+  descriptionNOTIN: [ByteArray]
+  descriptionNOTLIKE: ByteArray
+  end: u64
+  endEQ: u64
+  endGT: u64
+  endGTE: u64
+  endIN: [u64]
+  endLIKE: u64
+  endLT: u64
+  endLTE: u64
+  endNEQ: u64
+  endNOTIN: [u64]
+  endNOTLIKE: u64
+  group: felt252
+  groupEQ: felt252
+  groupGT: felt252
+  groupGTE: felt252
+  groupIN: [felt252]
+  groupLIKE: felt252
+  groupLT: felt252
+  groupLTE: felt252
+  groupNEQ: felt252
+  groupNOTIN: [felt252]
+  groupNOTLIKE: felt252
+  hidden: bool
+  icon: felt252
+  iconEQ: felt252
+  iconGT: felt252
+  iconGTE: felt252
+  iconIN: [felt252]
+  iconLIKE: felt252
+  iconLT: felt252
+  iconLTE: felt252
+  iconNEQ: felt252
+  iconNOTIN: [felt252]
+  iconNOTLIKE: felt252
+  id: felt252
+  idEQ: felt252
+  idGT: felt252
+  idGTE: felt252
+  idIN: [felt252]
+  idLIKE: felt252
+  idLT: felt252
+  idLTE: felt252
+  idNEQ: felt252
+  idNOTIN: [felt252]
+  idNOTLIKE: felt252
+  index: u8
+  indexEQ: u8
+  indexGT: u8
+  indexGTE: u8
+  indexIN: [u8]
+  indexLIKE: u8
+  indexLT: u8
+  indexLTE: u8
+  indexNEQ: u8
+  indexNOTIN: [u8]
+  indexNOTLIKE: u8
+  points: u16
+  pointsEQ: u16
+  pointsGT: u16
+  pointsGTE: u16
+  pointsIN: [u16]
+  pointsLIKE: u16
+  pointsLT: u16
+  pointsLTE: u16
+  pointsNEQ: u16
+  pointsNOTIN: [u16]
+  pointsNOTLIKE: u16
+  start: u64
+  startEQ: u64
+  startGT: u64
+  startGTE: u64
+  startIN: [u64]
+  startLIKE: u64
+  startLT: u64
+  startLTE: u64
+  startNEQ: u64
+  startNOTIN: [u64]
+  startNOTLIKE: u64
+  title: felt252
+  titleEQ: felt252
+  titleGT: felt252
+  titleGTE: felt252
+  titleIN: [felt252]
+  titleLIKE: felt252
+  titleLT: felt252
+  titleLTE: felt252
+  titleNEQ: felt252
+  titleNOTIN: [felt252]
+  titleNOTLIKE: felt252
+}
+
+type mancala_monday_TrophyProgression {
+  count: u32
+  entity: World__Entity
+  eventMessage: World__EventMessage
+  player_id: felt252
+  task_id: felt252
+  time: u64
+}
+
+type mancala_monday_TrophyProgressionConnection {
+  edges: [mancala_monday_TrophyProgressionEdge]
+  pageInfo: World__PageInfo!
+  totalCount: Int!
+}
+
+type mancala_monday_TrophyProgressionEdge {
+  cursor: Cursor
+  node: mancala_monday_TrophyProgression
+}
+
+input mancala_monday_TrophyProgressionOrder {
+  direction: OrderDirection!
+  field: mancala_monday_TrophyProgressionOrderField!
+}
+
+enum mancala_monday_TrophyProgressionOrderField {
+  COUNT
+  PLAYER_ID
+  TASK_ID
+  TIME
+}
+
+input mancala_monday_TrophyProgressionWhereInput {
+  count: u32
+  countEQ: u32
+  countGT: u32
+  countGTE: u32
+  countIN: [u32]
+  countLIKE: u32
+  countLT: u32
+  countLTE: u32
+  countNEQ: u32
+  countNOTIN: [u32]
+  countNOTLIKE: u32
+  player_id: felt252
+  player_idEQ: felt252
+  player_idGT: felt252
+  player_idGTE: felt252
+  player_idIN: [felt252]
+  player_idLIKE: felt252
+  player_idLT: felt252
+  player_idLTE: felt252
+  player_idNEQ: felt252
+  player_idNOTIN: [felt252]
+  player_idNOTLIKE: felt252
+  task_id: felt252
+  task_idEQ: felt252
+  task_idGT: felt252
+  task_idGTE: felt252
+  task_idIN: [felt252]
+  task_idLIKE: felt252
+  task_idLT: felt252
+  task_idLTE: felt252
+  task_idNEQ: felt252
+  task_idNOTIN: [felt252]
+  task_idNOTLIKE: felt252
+  time: u64
+  timeEQ: u64
+  timeGT: u64
+  timeGTE: u64
+  timeIN: [u64]
+  timeLIKE: u64
+  timeLT: u64
+  timeLTE: u64
+  timeNEQ: u64
+  timeNOTIN: [u64]
+  timeNOTLIKE: u64
+}
+
+type mancala_stone_Capture {
+  entity: World__Entity
+  eventMessage: World__EventMessage
+  game_id: u128
+  pit_number: u8
+  player: ContractAddress
+  seed_count: u8
+}
+
+type mancala_stone_CaptureConnection {
+  edges: [mancala_stone_CaptureEdge]
+  pageInfo: World__PageInfo!
+  totalCount: Int!
+}
+
+type mancala_stone_CaptureEdge {
+  cursor: Cursor
+  node: mancala_stone_Capture
+}
+
+input mancala_stone_CaptureOrder {
+  direction: OrderDirection!
+  field: mancala_stone_CaptureOrderField!
+}
+
+enum mancala_stone_CaptureOrderField {
+  GAME_ID
+  PIT_NUMBER
+  PLAYER
+  SEED_COUNT
+}
+
+input mancala_stone_CaptureWhereInput {
+  game_id: u128
+  game_idEQ: u128
+  game_idGT: u128
+  game_idGTE: u128
+  game_idIN: [u128]
+  game_idLIKE: u128
+  game_idLT: u128
+  game_idLTE: u128
+  game_idNEQ: u128
+  game_idNOTIN: [u128]
+  game_idNOTLIKE: u128
+  pit_number: u8
+  pit_numberEQ: u8
+  pit_numberGT: u8
+  pit_numberGTE: u8
+  pit_numberIN: [u8]
+  pit_numberLIKE: u8
+  pit_numberLT: u8
+  pit_numberLTE: u8
+  pit_numberNEQ: u8
+  pit_numberNOTIN: [u8]
+  pit_numberNOTLIKE: u8
+  player: ContractAddress
+  playerEQ: ContractAddress
+  playerGT: ContractAddress
+  playerGTE: ContractAddress
+  playerIN: [ContractAddress]
+  playerLIKE: ContractAddress
+  playerLT: ContractAddress
+  playerLTE: ContractAddress
+  playerNEQ: ContractAddress
+  playerNOTIN: [ContractAddress]
+  playerNOTLIKE: ContractAddress
+  seed_count: u8
+  seed_countEQ: u8
+  seed_countGT: u8
+  seed_countGTE: u8
+  seed_countIN: [u8]
+  seed_countLIKE: u8
+  seed_countLT: u8
+  seed_countLTE: u8
+  seed_countNEQ: u8
+  seed_countNOTIN: [u8]
+  seed_countNOTLIKE: u8
+}
+
+type mancala_stone_EndTurn {
+  current_player: ContractAddress
+  entity: World__Entity
+  eventMessage: World__EventMessage
+  game_id: u128
+  next_player: ContractAddress
+}
+
+type mancala_stone_EndTurnConnection {
+  edges: [mancala_stone_EndTurnEdge]
+  pageInfo: World__PageInfo!
+  totalCount: Int!
+}
+
+type mancala_stone_EndTurnEdge {
+  cursor: Cursor
+  node: mancala_stone_EndTurn
+}
+
+input mancala_stone_EndTurnOrder {
+  direction: OrderDirection!
+  field: mancala_stone_EndTurnOrderField!
+}
+
+enum mancala_stone_EndTurnOrderField {
+  CURRENT_PLAYER
+  GAME_ID
+  NEXT_PLAYER
+}
+
+input mancala_stone_EndTurnWhereInput {
+  current_player: ContractAddress
+  current_playerEQ: ContractAddress
+  current_playerGT: ContractAddress
+  current_playerGTE: ContractAddress
+  current_playerIN: [ContractAddress]
+  current_playerLIKE: ContractAddress
+  current_playerLT: ContractAddress
+  current_playerLTE: ContractAddress
+  current_playerNEQ: ContractAddress
+  current_playerNOTIN: [ContractAddress]
+  current_playerNOTLIKE: ContractAddress
+  game_id: u128
+  game_idEQ: u128
+  game_idGT: u128
+  game_idGTE: u128
+  game_idIN: [u128]
+  game_idLIKE: u128
+  game_idLT: u128
+  game_idLTE: u128
+  game_idNEQ: u128
+  game_idNOTIN: [u128]
+  game_idNOTLIKE: u128
+  next_player: ContractAddress
+  next_playerEQ: ContractAddress
+  next_playerGT: ContractAddress
+  next_playerGTE: ContractAddress
+  next_playerIN: [ContractAddress]
+  next_playerLIKE: ContractAddress
+  next_playerLT: ContractAddress
+  next_playerLTE: ContractAddress
+  next_playerNEQ: ContractAddress
+  next_playerNOTIN: [ContractAddress]
+  next_playerNOTLIKE: ContractAddress
+}
+
+type mancala_stone_GameCounter {
+  count: u128
+  entity: World__Entity
+  eventMessage: World__EventMessage
+  id: u32
+}
+
+type mancala_stone_GameCounterConnection {
+  edges: [mancala_stone_GameCounterEdge]
+  pageInfo: World__PageInfo!
+  totalCount: Int!
+}
+
+type mancala_stone_GameCounterEdge {
+  cursor: Cursor
+  node: mancala_stone_GameCounter
+}
+
+input mancala_stone_GameCounterOrder {
+  direction: OrderDirection!
+  field: mancala_stone_GameCounterOrderField!
+}
+
+enum mancala_stone_GameCounterOrderField {
+  COUNT
+  ID
+}
+
+input mancala_stone_GameCounterWhereInput {
+  count: u128
+  countEQ: u128
+  countGT: u128
+  countGTE: u128
+  countIN: [u128]
+  countLIKE: u128
+  countLT: u128
+  countLTE: u128
+  countNEQ: u128
+  countNOTIN: [u128]
+  countNOTLIKE: u128
+  id: u32
+  idEQ: u32
+  idGT: u32
+  idGTE: u32
+  idIN: [u32]
+  idLIKE: u32
+  idLT: u32
+  idLTE: u32
+  idNEQ: u32
+  idNOTIN: [u32]
+  idNOTLIKE: u32
+}
+
+type mancala_stone_MancalaBoard {
+  current_player: ContractAddress
+  entity: World__Entity
+  eventMessage: World__EventMessage
+  game_id: u128
+  is_private: bool
+  last_turn_change_timestamp: u64
+  player_one: ContractAddress
+  player_two: ContractAddress
+  status: Enum
+  winner: ContractAddress
+}
+
+type mancala_stone_MancalaBoardConnection {
+  edges: [mancala_stone_MancalaBoardEdge]
+  pageInfo: World__PageInfo!
+  totalCount: Int!
+}
+
+type mancala_stone_MancalaBoardEdge {
+  cursor: Cursor
+  node: mancala_stone_MancalaBoard
+}
+
+input mancala_stone_MancalaBoardOrder {
+  direction: OrderDirection!
+  field: mancala_stone_MancalaBoardOrderField!
+}
+
+enum mancala_stone_MancalaBoardOrderField {
+  CURRENT_PLAYER
+  GAME_ID
+  IS_PRIVATE
+  LAST_TURN_CHANGE_TIMESTAMP
+  PLAYER_ONE
+  PLAYER_TWO
+  STATUS
+  WINNER
+}
+
+input mancala_stone_MancalaBoardWhereInput {
+  current_player: ContractAddress
+  current_playerEQ: ContractAddress
+  current_playerGT: ContractAddress
+  current_playerGTE: ContractAddress
+  current_playerIN: [ContractAddress]
+  current_playerLIKE: ContractAddress
+  current_playerLT: ContractAddress
+  current_playerLTE: ContractAddress
+  current_playerNEQ: ContractAddress
+  current_playerNOTIN: [ContractAddress]
+  current_playerNOTLIKE: ContractAddress
+  game_id: u128
+  game_idEQ: u128
+  game_idGT: u128
+  game_idGTE: u128
+  game_idIN: [u128]
+  game_idLIKE: u128
+  game_idLT: u128
+  game_idLTE: u128
+  game_idNEQ: u128
+  game_idNOTIN: [u128]
+  game_idNOTLIKE: u128
+  is_private: bool
+  last_turn_change_timestamp: u64
+  last_turn_change_timestampEQ: u64
+  last_turn_change_timestampGT: u64
+  last_turn_change_timestampGTE: u64
+  last_turn_change_timestampIN: [u64]
+  last_turn_change_timestampLIKE: u64
+  last_turn_change_timestampLT: u64
+  last_turn_change_timestampLTE: u64
+  last_turn_change_timestampNEQ: u64
+  last_turn_change_timestampNOTIN: [u64]
+  last_turn_change_timestampNOTLIKE: u64
+  player_one: ContractAddress
+  player_oneEQ: ContractAddress
+  player_oneGT: ContractAddress
+  player_oneGTE: ContractAddress
+  player_oneIN: [ContractAddress]
+  player_oneLIKE: ContractAddress
+  player_oneLT: ContractAddress
+  player_oneLTE: ContractAddress
+  player_oneNEQ: ContractAddress
+  player_oneNOTIN: [ContractAddress]
+  player_oneNOTLIKE: ContractAddress
+  player_two: ContractAddress
+  player_twoEQ: ContractAddress
+  player_twoGT: ContractAddress
+  player_twoGTE: ContractAddress
+  player_twoIN: [ContractAddress]
+  player_twoLIKE: ContractAddress
+  player_twoLT: ContractAddress
+  player_twoLTE: ContractAddress
+  player_twoNEQ: ContractAddress
+  player_twoNOTIN: [ContractAddress]
+  player_twoNOTLIKE: ContractAddress
+  status: Enum
+  winner: ContractAddress
+  winnerEQ: ContractAddress
+  winnerGT: ContractAddress
+  winnerGTE: ContractAddress
+  winnerIN: [ContractAddress]
+  winnerLIKE: ContractAddress
+  winnerLT: ContractAddress
+  winnerLTE: ContractAddress
+  winnerNEQ: ContractAddress
+  winnerNOTIN: [ContractAddress]
+  winnerNOTLIKE: ContractAddress
+}
+
+type mancala_stone_Pit {
+  entity: World__Entity
+  eventMessage: World__EventMessage
+  game_id: u128
+  pit_number: u8
+  player: ContractAddress
+  seed_count: u8
+}
+
+type mancala_stone_PitConnection {
+  edges: [mancala_stone_PitEdge]
+  pageInfo: World__PageInfo!
+  totalCount: Int!
+}
+
+type mancala_stone_PitEdge {
+  cursor: Cursor
+  node: mancala_stone_Pit
+}
+
+input mancala_stone_PitOrder {
+  direction: OrderDirection!
+  field: mancala_stone_PitOrderField!
+}
+
+enum mancala_stone_PitOrderField {
+  GAME_ID
+  PIT_NUMBER
+  PLAYER
+  SEED_COUNT
+}
+
+input mancala_stone_PitWhereInput {
+  game_id: u128
+  game_idEQ: u128
+  game_idGT: u128
+  game_idGTE: u128
+  game_idIN: [u128]
+  game_idLIKE: u128
+  game_idLT: u128
+  game_idLTE: u128
+  game_idNEQ: u128
+  game_idNOTIN: [u128]
+  game_idNOTLIKE: u128
+  pit_number: u8
+  pit_numberEQ: u8
+  pit_numberGT: u8
+  pit_numberGTE: u8
+  pit_numberIN: [u8]
+  pit_numberLIKE: u8
+  pit_numberLT: u8
+  pit_numberLTE: u8
+  pit_numberNEQ: u8
+  pit_numberNOTIN: [u8]
+  pit_numberNOTLIKE: u8
+  player: ContractAddress
+  playerEQ: ContractAddress
+  playerGT: ContractAddress
+  playerGTE: ContractAddress
+  playerIN: [ContractAddress]
+  playerLIKE: ContractAddress
+  playerLT: ContractAddress
+  playerLTE: ContractAddress
+  playerNEQ: ContractAddress
+  playerNOTIN: [ContractAddress]
+  playerNOTLIKE: ContractAddress
+  seed_count: u8
+  seed_countEQ: u8
+  seed_countGT: u8
+  seed_countGTE: u8
+  seed_countIN: [u8]
+  seed_countLIKE: u8
+  seed_countLT: u8
+  seed_countLTE: u8
+  seed_countNEQ: u8
+  seed_countNOTIN: [u8]
+  seed_countNOTLIKE: u8
+}
+
+type mancala_stone_Player {
+  address: ContractAddress
+  entity: World__Entity
+  eventMessage: World__EventMessage
+  game_id: u128
+  len_pits: u8
+  restart_requested: bool
+}
+
+type mancala_stone_PlayerConnection {
+  edges: [mancala_stone_PlayerEdge]
+  pageInfo: World__PageInfo!
+  totalCount: Int!
+}
+
+type mancala_stone_PlayerEdge {
+  cursor: Cursor
+  node: mancala_stone_Player
+}
+
+type mancala_stone_PlayerExtraTurn {
+  entity: World__Entity
+  eventMessage: World__EventMessage
+  game_id: u128
+  player: ContractAddress
+}
+
+type mancala_stone_PlayerExtraTurnConnection {
+  edges: [mancala_stone_PlayerExtraTurnEdge]
+  pageInfo: World__PageInfo!
+  totalCount: Int!
+}
+
+type mancala_stone_PlayerExtraTurnEdge {
+  cursor: Cursor
+  node: mancala_stone_PlayerExtraTurn
+}
+
+input mancala_stone_PlayerExtraTurnOrder {
+  direction: OrderDirection!
+  field: mancala_stone_PlayerExtraTurnOrderField!
+}
+
+enum mancala_stone_PlayerExtraTurnOrderField {
+  GAME_ID
+  PLAYER
+}
+
+input mancala_stone_PlayerExtraTurnWhereInput {
+  game_id: u128
+  game_idEQ: u128
+  game_idGT: u128
+  game_idGTE: u128
+  game_idIN: [u128]
+  game_idLIKE: u128
+  game_idLT: u128
+  game_idLTE: u128
+  game_idNEQ: u128
+  game_idNOTIN: [u128]
+  game_idNOTLIKE: u128
+  player: ContractAddress
+  playerEQ: ContractAddress
+  playerGT: ContractAddress
+  playerGTE: ContractAddress
+  playerIN: [ContractAddress]
+  playerLIKE: ContractAddress
+  playerLT: ContractAddress
+  playerLTE: ContractAddress
+  playerNEQ: ContractAddress
+  playerNOTIN: [ContractAddress]
+  playerNOTLIKE: ContractAddress
+}
+
+type mancala_stone_PlayerMove {
+  entity: World__Entity
+  eventMessage: World__EventMessage
+  game_id: u128
+  pit_number: u8
+  seed_number: u8
+}
+
+type mancala_stone_PlayerMoveConnection {
+  edges: [mancala_stone_PlayerMoveEdge]
+  pageInfo: World__PageInfo!
+  totalCount: Int!
+}
+
+type mancala_stone_PlayerMoveEdge {
+  cursor: Cursor
+  node: mancala_stone_PlayerMove
+}
+
+input mancala_stone_PlayerMoveOrder {
+  direction: OrderDirection!
+  field: mancala_stone_PlayerMoveOrderField!
+}
+
+enum mancala_stone_PlayerMoveOrderField {
+  GAME_ID
+  PIT_NUMBER
+  SEED_NUMBER
+}
+
+input mancala_stone_PlayerMoveWhereInput {
+  game_id: u128
+  game_idEQ: u128
+  game_idGT: u128
+  game_idGTE: u128
+  game_idIN: [u128]
+  game_idLIKE: u128
+  game_idLT: u128
+  game_idLTE: u128
+  game_idNEQ: u128
+  game_idNOTIN: [u128]
+  game_idNOTLIKE: u128
+  pit_number: u8
+  pit_numberEQ: u8
+  pit_numberGT: u8
+  pit_numberGTE: u8
+  pit_numberIN: [u8]
+  pit_numberLIKE: u8
+  pit_numberLT: u8
+  pit_numberLTE: u8
+  pit_numberNEQ: u8
+  pit_numberNOTIN: [u8]
+  pit_numberNOTLIKE: u8
+  seed_number: u8
+  seed_numberEQ: u8
+  seed_numberGT: u8
+  seed_numberGTE: u8
+  seed_numberIN: [u8]
+  seed_numberLIKE: u8
+  seed_numberLT: u8
+  seed_numberLTE: u8
+  seed_numberNEQ: u8
+  seed_numberNOTIN: [u8]
+  seed_numberNOTLIKE: u8
+}
+
+input mancala_stone_PlayerOrder {
+  direction: OrderDirection!
+  field: mancala_stone_PlayerOrderField!
+}
+
+enum mancala_stone_PlayerOrderField {
+  ADDRESS
+  GAME_ID
+  LEN_PITS
+  RESTART_REQUESTED
+}
+
+input mancala_stone_PlayerWhereInput {
+  address: ContractAddress
+  addressEQ: ContractAddress
+  addressGT: ContractAddress
+  addressGTE: ContractAddress
+  addressIN: [ContractAddress]
+  addressLIKE: ContractAddress
+  addressLT: ContractAddress
+  addressLTE: ContractAddress
+  addressNEQ: ContractAddress
+  addressNOTIN: [ContractAddress]
+  addressNOTLIKE: ContractAddress
+  game_id: u128
+  game_idEQ: u128
+  game_idGT: u128
+  game_idGTE: u128
+  game_idIN: [u128]
+  game_idLIKE: u128
+  game_idLT: u128
+  game_idLTE: u128
+  game_idNEQ: u128
+  game_idNOTIN: [u128]
+  game_idNOTLIKE: u128
+  len_pits: u8
+  len_pitsEQ: u8
+  len_pitsGT: u8
+  len_pitsGTE: u8
+  len_pitsIN: [u8]
+  len_pitsLIKE: u8
+  len_pitsLT: u8
+  len_pitsLTE: u8
+  len_pitsNEQ: u8
+  len_pitsNOTIN: [u8]
+  len_pitsNOTLIKE: u8
+  restart_requested: bool
+}
+
+type mancala_stone_Profile {
+  address: ContractAddress
+  creation_time: u64
+  entity: World__Entity
+  eventMessage: World__EventMessage
+  is_initialized: bool
+  name: felt252
+  profile_uri: ByteArray
+}
+
+type mancala_stone_ProfileConnection {
+  edges: [mancala_stone_ProfileEdge]
+  pageInfo: World__PageInfo!
+  totalCount: Int!
+}
+
+type mancala_stone_ProfileEdge {
+  cursor: Cursor
+  node: mancala_stone_Profile
+}
+
+input mancala_stone_ProfileOrder {
+  direction: OrderDirection!
+  field: mancala_stone_ProfileOrderField!
+}
+
+enum mancala_stone_ProfileOrderField {
+  ADDRESS
+  CREATION_TIME
+  IS_INITIALIZED
+  NAME
+  PROFILE_URI
+}
+
+input mancala_stone_ProfileWhereInput {
+  address: ContractAddress
+  addressEQ: ContractAddress
+  addressGT: ContractAddress
+  addressGTE: ContractAddress
+  addressIN: [ContractAddress]
+  addressLIKE: ContractAddress
+  addressLT: ContractAddress
+  addressLTE: ContractAddress
+  addressNEQ: ContractAddress
+  addressNOTIN: [ContractAddress]
+  addressNOTLIKE: ContractAddress
+  creation_time: u64
+  creation_timeEQ: u64
+  creation_timeGT: u64
+  creation_timeGTE: u64
+  creation_timeIN: [u64]
+  creation_timeLIKE: u64
+  creation_timeLT: u64
+  creation_timeLTE: u64
+  creation_timeNEQ: u64
+  creation_timeNOTIN: [u64]
+  creation_timeNOTLIKE: u64
+  is_initialized: bool
+  name: felt252
+  nameEQ: felt252
+  nameGT: felt252
+  nameGTE: felt252
+  nameIN: [felt252]
+  nameLIKE: felt252
+  nameLT: felt252
+  nameLTE: felt252
+  nameNEQ: felt252
+  nameNOTIN: [felt252]
+  nameNOTLIKE: felt252
+  profile_uri: ByteArray
+  profile_uriEQ: ByteArray
+  profile_uriGT: ByteArray
+  profile_uriGTE: ByteArray
+  profile_uriIN: [ByteArray]
+  profile_uriLIKE: ByteArray
+  profile_uriLT: ByteArray
+  profile_uriLTE: ByteArray
+  profile_uriNEQ: ByteArray
+  profile_uriNOTIN: [ByteArray]
+  profile_uriNOTLIKE: ByteArray
+}
+
+type mancala_stone_Seed {
+  color: Enum
+  entity: World__Entity
+  eventMessage: World__EventMessage
+  game_id: u128
+  pit_number: u8
+  player: ContractAddress
+  seed_id: u128
+  seed_number: u8
+}
+
+type mancala_stone_SeedConnection {
+  edges: [mancala_stone_SeedEdge]
+  pageInfo: World__PageInfo!
+  totalCount: Int!
+}
+
+type mancala_stone_SeedEdge {
+  cursor: Cursor
+  node: mancala_stone_Seed
+}
+
+input mancala_stone_SeedOrder {
+  direction: OrderDirection!
+  field: mancala_stone_SeedOrderField!
+}
+
+enum mancala_stone_SeedOrderField {
+  COLOR
+  GAME_ID
+  PIT_NUMBER
+  PLAYER
+  SEED_ID
+  SEED_NUMBER
+}
+
+input mancala_stone_SeedWhereInput {
+  color: Enum
+  game_id: u128
+  game_idEQ: u128
+  game_idGT: u128
+  game_idGTE: u128
+  game_idIN: [u128]
+  game_idLIKE: u128
+  game_idLT: u128
+  game_idLTE: u128
+  game_idNEQ: u128
+  game_idNOTIN: [u128]
+  game_idNOTLIKE: u128
+  pit_number: u8
+  pit_numberEQ: u8
+  pit_numberGT: u8
+  pit_numberGTE: u8
+  pit_numberIN: [u8]
+  pit_numberLIKE: u8
+  pit_numberLT: u8
+  pit_numberLTE: u8
+  pit_numberNEQ: u8
+  pit_numberNOTIN: [u8]
+  pit_numberNOTLIKE: u8
+  player: ContractAddress
+  playerEQ: ContractAddress
+  playerGT: ContractAddress
+  playerGTE: ContractAddress
+  playerIN: [ContractAddress]
+  playerLIKE: ContractAddress
+  playerLT: ContractAddress
+  playerLTE: ContractAddress
+  playerNEQ: ContractAddress
+  playerNOTIN: [ContractAddress]
+  playerNOTLIKE: ContractAddress
+  seed_id: u128
+  seed_idEQ: u128
+  seed_idGT: u128
+  seed_idGTE: u128
+  seed_idIN: [u128]
+  seed_idLIKE: u128
+  seed_idLT: u128
+  seed_idLTE: u128
+  seed_idNEQ: u128
+  seed_idNOTIN: [u128]
+  seed_idNOTLIKE: u128
+  seed_number: u8
+  seed_numberEQ: u8
+  seed_numberGT: u8
+  seed_numberGTE: u8
+  seed_numberIN: [u8]
+  seed_numberLIKE: u8
+  seed_numberLT: u8
+  seed_numberLTE: u8
+  seed_numberNEQ: u8
+  seed_numberNOTIN: [u8]
+  seed_numberNOTLIKE: u8
+}
+
+type mancala_stone_Settings {
+  entity: World__Entity
+  eventMessage: World__EventMessage
+  gate_keeper_address: ContractAddress
+  id: u8
+  mancala_pass_address: ContractAddress
+}
+
+type mancala_stone_SettingsConnection {
+  edges: [mancala_stone_SettingsEdge]
+  pageInfo: World__PageInfo!
+  totalCount: Int!
+}
+
+type mancala_stone_SettingsEdge {
+  cursor: Cursor
+  node: mancala_stone_Settings
+}
+
+input mancala_stone_SettingsOrder {
+  direction: OrderDirection!
+  field: mancala_stone_SettingsOrderField!
+}
+
+enum mancala_stone_SettingsOrderField {
+  GATE_KEEPER_ADDRESS
+  ID
+  MANCALA_PASS_ADDRESS
+}
+
+input mancala_stone_SettingsWhereInput {
+  gate_keeper_address: ContractAddress
+  gate_keeper_addressEQ: ContractAddress
+  gate_keeper_addressGT: ContractAddress
+  gate_keeper_addressGTE: ContractAddress
+  gate_keeper_addressIN: [ContractAddress]
+  gate_keeper_addressLIKE: ContractAddress
+  gate_keeper_addressLT: ContractAddress
+  gate_keeper_addressLTE: ContractAddress
+  gate_keeper_addressNEQ: ContractAddress
+  gate_keeper_addressNOTIN: [ContractAddress]
+  gate_keeper_addressNOTLIKE: ContractAddress
+  id: u8
+  idEQ: u8
+  idGT: u8
+  idGTE: u8
+  idIN: [u8]
+  idLIKE: u8
+  idLT: u8
+  idLTE: u8
+  idNEQ: u8
+  idNOTIN: [u8]
+  idNOTLIKE: u8
+  mancala_pass_address: ContractAddress
+  mancala_pass_addressEQ: ContractAddress
+  mancala_pass_addressGT: ContractAddress
+  mancala_pass_addressGTE: ContractAddress
+  mancala_pass_addressIN: [ContractAddress]
+  mancala_pass_addressLIKE: ContractAddress
+  mancala_pass_addressLT: ContractAddress
+  mancala_pass_addressLTE: ContractAddress
+  mancala_pass_addressNEQ: ContractAddress
+  mancala_pass_addressNOTIN: [ContractAddress]
+  mancala_pass_addressNOTLIKE: ContractAddress
+}
+
+type mancala_stone_Task {
+  description: ByteArray
+  id: felt252
+  total: u32
+}
+
+type mancala_stone_TrophyCreation {
+  data: ByteArray
+  description: ByteArray
+  end: u64
+  entity: World__Entity
+  eventMessage: World__EventMessage
+  group: felt252
+  hidden: bool
+  icon: felt252
+  id: felt252
+  index: u8
+  points: u16
+  start: u64
+  tasks: [mancala_stone_Task]
+  title: felt252
+}
+
+type mancala_stone_TrophyCreationConnection {
+  edges: [mancala_stone_TrophyCreationEdge]
+  pageInfo: World__PageInfo!
+  totalCount: Int!
+}
+
+type mancala_stone_TrophyCreationEdge {
+  cursor: Cursor
+  node: mancala_stone_TrophyCreation
+}
+
+input mancala_stone_TrophyCreationOrder {
+  direction: OrderDirection!
+  field: mancala_stone_TrophyCreationOrderField!
+}
+
+enum mancala_stone_TrophyCreationOrderField {
+  DATA
+  DESCRIPTION
+  END
+  GROUP
+  HIDDEN
+  ICON
+  ID
+  INDEX
+  POINTS
+  START
+  TASKS
+  TITLE
+}
+
+input mancala_stone_TrophyCreationWhereInput {
+  data: ByteArray
+  dataEQ: ByteArray
+  dataGT: ByteArray
+  dataGTE: ByteArray
+  dataIN: [ByteArray]
+  dataLIKE: ByteArray
+  dataLT: ByteArray
+  dataLTE: ByteArray
+  dataNEQ: ByteArray
+  dataNOTIN: [ByteArray]
+  dataNOTLIKE: ByteArray
+  description: ByteArray
+  descriptionEQ: ByteArray
+  descriptionGT: ByteArray
+  descriptionGTE: ByteArray
+  descriptionIN: [ByteArray]
+  descriptionLIKE: ByteArray
+  descriptionLT: ByteArray
+  descriptionLTE: ByteArray
+  descriptionNEQ: ByteArray
+  descriptionNOTIN: [ByteArray]
+  descriptionNOTLIKE: ByteArray
+  end: u64
+  endEQ: u64
+  endGT: u64
+  endGTE: u64
+  endIN: [u64]
+  endLIKE: u64
+  endLT: u64
+  endLTE: u64
+  endNEQ: u64
+  endNOTIN: [u64]
+  endNOTLIKE: u64
+  group: felt252
+  groupEQ: felt252
+  groupGT: felt252
+  groupGTE: felt252
+  groupIN: [felt252]
+  groupLIKE: felt252
+  groupLT: felt252
+  groupLTE: felt252
+  groupNEQ: felt252
+  groupNOTIN: [felt252]
+  groupNOTLIKE: felt252
+  hidden: bool
+  icon: felt252
+  iconEQ: felt252
+  iconGT: felt252
+  iconGTE: felt252
+  iconIN: [felt252]
+  iconLIKE: felt252
+  iconLT: felt252
+  iconLTE: felt252
+  iconNEQ: felt252
+  iconNOTIN: [felt252]
+  iconNOTLIKE: felt252
+  id: felt252
+  idEQ: felt252
+  idGT: felt252
+  idGTE: felt252
+  idIN: [felt252]
+  idLIKE: felt252
+  idLT: felt252
+  idLTE: felt252
+  idNEQ: felt252
+  idNOTIN: [felt252]
+  idNOTLIKE: felt252
+  index: u8
+  indexEQ: u8
+  indexGT: u8
+  indexGTE: u8
+  indexIN: [u8]
+  indexLIKE: u8
+  indexLT: u8
+  indexLTE: u8
+  indexNEQ: u8
+  indexNOTIN: [u8]
+  indexNOTLIKE: u8
+  points: u16
+  pointsEQ: u16
+  pointsGT: u16
+  pointsGTE: u16
+  pointsIN: [u16]
+  pointsLIKE: u16
+  pointsLT: u16
+  pointsLTE: u16
+  pointsNEQ: u16
+  pointsNOTIN: [u16]
+  pointsNOTLIKE: u16
+  start: u64
+  startEQ: u64
+  startGT: u64
+  startGTE: u64
+  startIN: [u64]
+  startLIKE: u64
+  startLT: u64
+  startLTE: u64
+  startNEQ: u64
+  startNOTIN: [u64]
+  startNOTLIKE: u64
+  title: felt252
+  titleEQ: felt252
+  titleGT: felt252
+  titleGTE: felt252
+  titleIN: [felt252]
+  titleLIKE: felt252
+  titleLT: felt252
+  titleLTE: felt252
+  titleNEQ: felt252
+  titleNOTIN: [felt252]
+  titleNOTLIKE: felt252
+}
+
+type mancala_stone_TrophyProgression {
+  count: u32
+  entity: World__Entity
+  eventMessage: World__EventMessage
+  player_id: felt252
+  task_id: felt252
+  time: u64
+}
+
+type mancala_stone_TrophyProgressionConnection {
+  edges: [mancala_stone_TrophyProgressionEdge]
+  pageInfo: World__PageInfo!
+  totalCount: Int!
+}
+
+type mancala_stone_TrophyProgressionEdge {
+  cursor: Cursor
+  node: mancala_stone_TrophyProgression
+}
+
+input mancala_stone_TrophyProgressionOrder {
+  direction: OrderDirection!
+  field: mancala_stone_TrophyProgressionOrderField!
+}
+
+enum mancala_stone_TrophyProgressionOrderField {
+  COUNT
+  PLAYER_ID
+  TASK_ID
+  TIME
+}
+
+input mancala_stone_TrophyProgressionWhereInput {
+  count: u32
+  countEQ: u32
+  countGT: u32
+  countGTE: u32
+  countIN: [u32]
+  countLIKE: u32
+  countLT: u32
+  countLTE: u32
+  countNEQ: u32
+  countNOTIN: [u32]
+  countNOTLIKE: u32
+  player_id: felt252
+  player_idEQ: felt252
+  player_idGT: felt252
+  player_idGTE: felt252
+  player_idIN: [felt252]
+  player_idLIKE: felt252
+  player_idLT: felt252
+  player_idLTE: felt252
+  player_idNEQ: felt252
+  player_idNOTIN: [felt252]
+  player_idNOTLIKE: felt252
+  task_id: felt252
+  task_idEQ: felt252
+  task_idGT: felt252
+  task_idGTE: felt252
+  task_idIN: [felt252]
+  task_idLIKE: felt252
+  task_idLT: felt252
+  task_idLTE: felt252
+  task_idNEQ: felt252
+  task_idNOTIN: [felt252]
+  task_idNOTLIKE: felt252
+  time: u64
+  timeEQ: u64
+  timeGT: u64
+  timeGTE: u64
+  timeIN: [u64]
+  timeLIKE: u64
+  timeLT: u64
+  timeLTE: u64
+  timeNEQ: u64
+  timeNOTIN: [u64]
+  timeNOTLIKE: u64
+}
+
+scalar u8
+
+scalar u16
+
+scalar u32
+
+scalar u64
+
+scalar u128
