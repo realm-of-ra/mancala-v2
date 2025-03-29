@@ -24,7 +24,6 @@ export async function initializeGlobalDb(gameId?: string) {
         fetchPolicy: "network-only",
       });
 
-      // ✅ Store the raw data directly
       globalDataVar({
         data: data || null,
         started: true,
@@ -42,9 +41,6 @@ export async function initializeGlobalDb(gameId?: string) {
 }
 
 export function useDB(gameId?: string) {
-  if (!globalDataVar().started) {
-    initializeGlobalDb(gameId);
-  }
-
+  initializeGlobalDb(gameId);
   return useReactiveVar(globalDataVar);
 }
