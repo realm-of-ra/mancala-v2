@@ -1,4 +1,5 @@
 import { useReactiveVar, makeVar } from "@apollo/client";
+import { useEffect } from "react";
 import { MancalaBoard } from "../../types";
 import { apolloClient } from "@/apollo";
 import { GLOBAL_QUERY_FILTERED, GLOBAL_QUERY_ALL } from "../../queries";
@@ -14,6 +15,8 @@ const globalDataVar = makeVar<{
 let pollingInterval: NodeJS.Timeout | null = null;
 
 export async function initializeGlobalDb(gameId?: string) {
+  if (globalDataVar().started) return;
+
   const query = gameId ? GLOBAL_QUERY_FILTERED : GLOBAL_QUERY_ALL;
 
   const fetchData = async () => {
@@ -41,6 +44,16 @@ export async function initializeGlobalDb(gameId?: string) {
 }
 
 export function useDB(gameId?: string) {
-  initializeGlobalDb(gameId);
+  useEffect(() => {
+    initializeGlobalDb(gameId);
+
+    return () => {
+      if (pollingInterval) {
+        clearInterval(pollingInterval);
+        pollingInterval = null;
+      }
+    };
+  }, [gameId]);
+
   return useReactiveVar(globalDataVar);
 }
