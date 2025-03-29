@@ -13,7 +13,8 @@ import { ArgentMobileConnector } from "starknetkit/argentMobile";
 import { ControllerConnector } from "@cartridge/connector";
 import { constants } from "starknet";
 import CONFIG, { IS_MAINNET } from "../../config";
-import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
+import { ApolloProvider } from "@apollo/client";
+import { apolloClient } from "@/apollo";
 
 const controller =
   typeof window !== "undefined"
@@ -28,11 +29,6 @@ const controller =
         }),
       ]
     : [];
-
-const apollo_client = new ApolloClient({
-  uri: CONFIG.GRAPHQL_ENDPOINT,
-  cache: new InMemoryCache(),
-});
 
 export default function AppWrapper({ children }: { children: ReactNode }) {
   const connectors = [
@@ -49,7 +45,7 @@ export default function AppWrapper({ children }: { children: ReactNode }) {
       explorer={voyager}
       autoConnect
     >
-      <ApolloProvider client={apollo_client}>{children}</ApolloProvider>
+      <ApolloProvider client={apolloClient}>{children}</ApolloProvider>
     </StarknetConfig>
   );
 }
